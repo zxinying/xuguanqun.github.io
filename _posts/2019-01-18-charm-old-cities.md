@@ -6,7 +6,7 @@ categories:
   - 图片
 image: assets/images/home.jpg
 tags:
-  - 长图
+  - sticky
 published: true
 ---
 长图
