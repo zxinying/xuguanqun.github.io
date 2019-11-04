@@ -3,11 +3,10 @@ layout: post
 title: 固定图片
 author: jane
 categories:
-  - Jekyll
-  - tutorial
+  - 图片
 image: assets/images/home.jpg
 tags:
-  - sticky
+  - 长图
 published: true
 ---
 sticky类型
