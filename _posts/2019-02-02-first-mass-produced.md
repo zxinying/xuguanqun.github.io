@@ -6,7 +6,7 @@ categories:
   - 网络
 image: assets/images/17.jpg
 tags:
-  - featured
+  - 精选
 published: true
 ---
 
