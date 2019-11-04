@@ -1,27 +1,477 @@
 ---
 layout: post
-title:  "The first mass-produced book to deviate from a rectilinear format"
-author: sal
-categories: [ tutorial ]
+title: 前端基础篇之HTTP协议
+author: lostdeer
+categories:
+  - 网络
 image: assets/images/17.jpg
-tags: [featured]
+tags:
+  - featured
+published: true
 ---
-The first mass-produced book to deviate from a rectilinear format, at least in the United States, is thought to be this 1863 edition of Red Riding Hood, cut into the shape of the protagonist herself with the troublesome wolf curled at her feet. Produced by the Boston-based publisher Louis Prang, this is the first in their “Doll Series”, a set of five “die-cut” books, known also as shape books — the other titles being Robinson Crusoe, Goody Two-Shoes (also written by Red Riding Hood author Lydia Very), Cinderella, and King Winter. 
 
-An 1868 Prang catalogue would later claim that such “books in the shape of a regular paper Doll... originated with us”. 
+本文转自掘金，作者：幻灵尔依
+## HTTP协议简介
+>Web使用一种名为HTTP（HyperText Transfer Protocol，超文本传输协议）的协议作为规范，完成从客户端到服务器等一系列运作流程。而协议是指规则的约定。可以说，Web是建立在HTTP协议上通信的。
 
-> It would seem the claim could also extend to die cut books in general, as we can’t find anything sooner, but do let us know in the comments if you have further light to shed on this! Such books are, of course, still popular in children’s publishing today, though the die cutting is not now limited to mere outlines, as evidenced in a beautiful 2014 version of the same Little Red Riding Hood story. 
+HTTP最初的目的是为了让研究者共享知识信息，所以它的主要作用就是文档传输，它是一种用于传输文档的协议。
 
-The die cut has also been employed in the non-juvenile sphere as well, a recent example being Jonathan Safran Foer’s ambitious Tree of Codes. 
+HTTP是不保存状态的协议，既无状态协议，协议本身对于请求或响应之间的通信状态不进行保存，因此连接双方不能知晓对方当前的身份和状态。这也是Cookie技术产生的重要原因之一：客户端的状态管理。浏览器会根据从服务器端发送的响应报文内 Set-Cookie 首部字段信息自动保持 Cookie。而每次客户端发送 HTTP 请求，都会在请求报文中携带 Cookie，作为服务端识别客户端身份状态的标识。
 
-As for this particular rendition of Charles Perrault’s classic tale, the text and design is by Lydia Very (1823-1901), sister of Transcendentalist poet Jones Very. The gruesome ending of the original - which sees Little Red Riding Hood being gobbled up as well as her grandmother - is avoided here, the gore giving way to the less bloody aims of the morality tale, and the lesson that one should not disobey one’s mother.
+## TCP/IP 协议族
+为了更好的了解HTTP协议，我们必须先了解一下 TCP/IP 协议族。TCP/IP 协议族是Internet最基本的协议，HTTP协议是它的一个子集。TCP/IP协议族按层次分为以下四层（网络基础，最好记住）：
+* 应用层
 
-To deviate from a rectilinear format, at least in the United States, is thought to be this 1863 edition of Red Riding Hood, cut into the shape of the protagonist herself with the troublesome wolf curled at her feet. Produced by the Boston-based publisher Louis Prang, this is the first in their “Doll Series”, a set of five “die-cut” books, known also as shape books — the other titles being Robinson Crusoe, Goody Two-Shoes (also written by Red Riding Hood author Lydia Very), Cinderella, and King Winter. 
+应用层规定了向用户提供应用服务时通信的协议，如：
+TCP/IP 协议族内预存了各类通用的应用服务协议。比如，FTP（File Transfer Protocol，文件传输协议）和DNS（Domain Name System，域名系统）服务就是其中的两类以及HTTP协议。
+DNS域名系统提供域名（如：www.baidu.com）到IP地址（如：119.75.217.109）之间的解析服务。
 
-An 1868 Prang catalogue would later claim that such “books in the shape of a regular paper Doll... originated with us”. 
+* 传输层
 
-> The claim could also extend to die cut books in general, as we can’t find anything sooner, but do let us know in the comments if you have further light to shed on this! Such books are, of course, still popular in children’s publishing today, though the die cutting is not now limited to mere outlines, as evidenced in a beautiful 2014 version of the same Little Red Riding Hood story. 
+传输层对接上层应用层，提供处于网络连接中两台计算机之间的数据传输所使用的协议。
+在传输层有两个性质不同的协议：TCP（Transmission Control Protocol，传输控制协议）和UDP（User Data Protocol，用户数据报协议）。
+TCP协议是全双工的，即发送数据和接收数据是同步进行的，就好像我们打电话一样，说话的同时也能听见。TCP协议在建立和断开连接时有三次握手和四次挥手，因此在传输的过程中更稳定可靠但同时就没UDP那么高效了。
+UDP协议是面向无连接的，也就是说在正式传递数据之前不需要先建立连接。UDP 协议不保证有序且不丢失的传递到对端，也就是说不够稳定，但也正因如此，UDP协议比TCP更加高效和轻便。
 
-The die cut has also been employed in the non-juvenile sphere as well, a recent example being Jonathan Safran Foer’s ambitious Tree of Codes. 
+* 网络层
 
-As for this particular rendition of Charles Perrault’s classic tale, the text and design is by Lydia Very (1823-1901), sister of Transcendentalist poet Jones Very. The gruesome ending of the original - which sees Little Red Riding Hood being gobbled up as well as her grandmother - is avoided here, the gore giving way to the less bloody aims of the morality tale, and the lesson that one should not disobey one’s mother.
+网络层规定了数据通过怎样的传输路线到达对方计算机传送给对方（IP协议等）。
+
+与对方计算机之间通过多台计算机或网络设备进行传输时，网络层所起的所用就是在众多的选项内选择一条传输路线。就跟携程提供的回家路线图作用一样。
+* 链路层
+
+用来处理连接网络的硬件部分，包括控制操作系统、硬件的设备驱动、NIC（Network Interface Card，网络适配器，即网卡），及光纤等物理可见部分（还包括连接器等一切传输媒介）。硬件上的范畴均在链路层的作用范围之内。
+
+### 串行连接、持久连接、管道化持久连接、http/2.0多路复用简介
+
+* 串行连接： HTTP有无连接的特性，即每次连接只能处理一个请求，收到响应后立即断开连接。HTTP/1.0 版本（称为串行连接或短连接、短轮询）中每次HTTP通信后都要断开TCP连接，所以每个新的HTTP请求都需要建立一个新的连接。但在现在网站动则几十条HTTP请求的情况下，很容易达到浏览器请求上限，并且每次请求都建立新的tcp连接（每次都有三次握手四次挥别）极大的增加了通信开销。
+持久连接： 为解决这个问题，有人提出了持久连接（也叫长连接、长轮询）。一定时间内，同一域名下的HTTP请求，只要两端都没有提出断开连接，则持久保持TCP连接状态，其他请求可以复用这个连接通道。HTTP/1.1 实现并默认了所有连接都是持久连接，这样客户端发起多个HTTP请求时就减少了TCP握手造成的网络资源和通信时间的浪费。但是持久连接采用阻塞模式，下次请求必须等到上次响应返回后才能发起，如果上次的请求还没返回响应内容，下次请求就只能等着（就是常说的线头阻塞）。
+
+* 管道化持久连接： 管道化则可以不用等待响应返回而发送下个请求并按顺序返回响应，现代浏览器并未默认开启管道化。（这方面收集到的资料有限不多说了）
+
+* HTTP/2.0多路复用： 每个HTTP请求都有一个序列标识符，这样浏览器可以并发多个请求，服务器接收到数据后，再根据序列标识符重新排序成不同的请求报文，而不会导致数据错乱（ 细节参照此文）。同样，服务端也可以并发返回多个响应给浏览器，浏览器收到后根据序列标识重新排序并归入各自的请求的响应报文。并且同一个域名下的所有请求都复用同一个TCP连接，极大增加了服务器处理并发的上限。
+
+* WebSocket： WebSocket是HTML5提出的一种客户端和服务端通讯的全双工协议，由客户端发起请求，建立连接之后不仅客户端可以主动向服务端发送请求，服务端可以主动向客户端推送信息。
+
+### URL
+HTTP协议使用 URI 定位互联网上的资源。概念：
+
+URI(Universal Resource Identifier：统一资源标识符)
+URL(Universal Resource Locator：统一资源定位符)
+URN(Universal Resource Name：统一资源名称)。
+
+个人理解URI是一个资源文件的不同表示方法的总称。比如一个文件 a.html ，既可以用这个文件的名字 a.html 来表示，也可以用文件路径 www.baidu.com/a.html 来表示，甚至可以用 urn:a:1535-3613 这样的标识符来表示
+
+## HTTP版本
+### HTTP/1.0
+最早的http只是使用在一些较为简单的网页上和网络请求上，所以比较简单，每次请求都打开一个新的TCP链接，收到响应之后立即断开连接。
+### HTTP/1.1
+
+HTTP/1.1 引入了更多的缓存控制策略，如Entity tag，If-Unmodified-Since, If-Match, If-None-Match等
+HTTP/1.1 允许范围请求，即在请求头中加入Range头部
+HTTP/1.1 的请求消息和响应消息都必须包含Host头部，以区分同一个物理主机中的不同虚拟主机的域名
+HTTP/1.1 默认开启持久连接，在一个TCP连接上可以传送多个HTTP请求和响应，减少了建立和关闭连接的消耗和延迟。
+
+### HTTP/2.0
+在 HTTP/2 中，有两个非常重要的概念，分别是帧（frame）和流（stream），理解这两个概念是理解下面多路复用的前提。
+帧代表数据传输的最小的单位，每个帧都有序列标识表明该帧属于哪个流，流也就是多个帧组成的数据流，每个流表示一个请求。这里有个chrome扩展程序，可以方便的查看当前网站的HTTP请求版本（安装后在chrome开发工具-Network-在Name/Size/Time表格头右键选择Procotol，即可查看协议版本）。
+
+新的二进制格式： HTTP/1.x的解析是基于文本的。基于文本协议的解析存在天然缺陷，文本的表现形式有多样性，要做到全面性考虑的场景必然很多。二进制则不同，只识别0和1的组合。基于这种考虑HTTP/2.0的协议解析采用二进制格式，方便且强大。
+多路复用： HTTP/2.0支持多路复用，这是HTTP/1.1持久连接的升级版。多路复用，就是在一个 TCP 连接中可以存在多条流，也就是可以发送多个请求，服务端则可以通过帧中的标识知道该帧属于哪个流（即请求），通过重新排序还原请求。多路复用允许并发的发起多个请求，每个请求及该请求的响应不需要等待其他的请求或响应，避免了线头阻塞问题。这样某个请求任务耗时严重，不会影响到其它连接的正常执行,极大的提高传输性能。
+头部压缩： HTTP/1.x的请求和响应头部带有大量信息，而且每次请求都要重复发送，HTTP/2.0使用encoder来减少需要传输的头部大小，通讯双方各自cache一份头部 fields表，既避免了重复头部的传输，又减小了需要传输的大小。
+服务端推送： 这里的服务端推送指把客户端所需要的css/js/img资源伴随着index.html一起发送到客户端，省去了客户端重复请求的步骤（从缓存中取）。
+
+### HTTP/3.0
+HTTP/2.0 使用了多路复用，一般来说同一域名下只需要使用一个 TCP 连接。但当这个连接中出现了丢包的情况，那就会导致整个 TCP 都要开始等待重传，也就导致了后面的所有数据都被阻塞了。反而对于 HTTP/1.0 来说，可以开启多个 TCP 连接，出现丢包反倒只会影响其中一个连接，剩余的 TCP 连接还可以正常传输数据。
+出现包阻塞的原因是因为底层TCP协议导致的问题，但是修改TCP协议是不现实的问题，就像typeof null === 'object'一样，修改这个问题会导致出现更多的问题。既然不能修改你，那就另起一个协议取代你。Google 基于 UDP 协议推出了一个的 QUIC 协议，并且使用在了 HTTP/3 上。
+QUIC 基于 UDP，但是UDP本身存在不稳定性等诸多问题，所以QUIC在UDP的基础上新增了很多功能，比如多路复用、0-RTT、使用 TLS1.3 加密、流量控制、有序交付、重传等等功能。优点诸多，参考这里：
+
+* 避免包阻塞： 多个流的数据包在TCP连接上传输时，若一个流中的数据包传输出现问题，TCP需要等待该包重传后，才能继续传输其它流的数据包。但在基于UDP的QUIC协议中，不同的流之间的数据传输真正实现了相互独立互不干扰，某个流的数据包在出问题需要重传时，并不会对其他流的数据包传输产生影响。
+* 快速重启会话： 普通基于tcp的连接，是基于两端的ip和端口和协议来建立的。在网络切换场景，例如手机端切换了无线网，使用4G网络，会改变本身的ip，这就导致tcp连接必须重新创建。而QUIC协议使用特有的UUID来标记每一次连接，在网络环境发生变化的时候，只要UUID不变，就能不需要握手，继续传输数据。
+
+## HTTP报文
+用于HTTP协议交互的信息被称为HTTP报文。客户端的HTTP报文叫请求报文，服务端的HTTP报文叫响应报文。
+请求报文 是由请求行（请求方法、协议版本）、请求首部（请求URI、客户端信息等）和内容实体（用户信息和资源信息等，可为空）构成。
+响应报文 是由状态行（协议版本、状态码）、响应首部（服务器名称、资源标识等）和内容实体（服务端返回的资源信息）构成。
+### 请求方法
+* GET：get方法一般用于获取服务器资源
+* POST：post方法一般用于传输实体主体
+* PUT：put方法一般用于传输文件
+* DELETE：delete方法用于删除文件
+* HEAD：head方法用于获取报文首部，不返回报文主体
+* OPTIONS：options方法用于询问请求URI资源支持的方法
+### 状态码
+HTTP状态码表示客户端HTTP请求的返回结果、标识服务器处理是否正常、表明请求出现的错误等。
+
+2XX
+成功（这系列表明请求被正常处理了）
+
+200
+OK，表示从客户端发来的请求在服务器端被正确处理
+
+204
+No content，表示请求成功，但响应报文不含实体的主体部分
+
+
+206
+Partial Content，进行范围请求成功
+
+
+
+
+
+
+3XX
+重定向（表明浏览器要执行特殊处理）
+
+
+
+
+301
+moved permanently，永久性重定向，表示资源已被分配了新的 URL
+
+
+302
+found，临时性重定向，表示资源临时被分配了新的 URL
+
+
+303
+see other，表示资源存在着另一个 URL，应使用 GET 方法获取资源（对于301/302/303响应，几乎所有浏览器都会删除报文主体并自动用GET重新请求）
+
+
+304
+not modified，表示服务器允许访问资源，但请求未满足条件的情况（与重定向无关）
+
+
+307
+temporary redirect，临时重定向，和302含义类似，但是期望客户端保持请求方法不变向新的地址发出请求
+
+
+
+
+
+
+4XX
+客户端错误
+
+
+
+
+400
+bad request，请求报文存在语法错误
+
+
+401
+unauthorized，表示发送的请求需要有通过 HTTP 认证的认证信息
+
+
+403
+forbidden，表示对请求资源的访问被服务器拒绝，可在实体主体部分返回原因描述
+
+
+404
+not found，表示在服务器上没有找到请求的资源
+
+
+
+
+
+
+5XX
+服务器错误
+
+
+
+
+500
+internal sever error，表示服务器端在执行请求时发生了错误
+
+
+501
+Not Implemented，表示服务器不支持当前请求所需要的某个功能
+
+
+503
+service unavailable，表明服务器暂时处于超负载或正在停机维护，无法处理请求
+### 首部字段
+下面是请求首部和响应首部中的字段名称和作用：
+
+
+
+通用首部
+作用（请求报文和响应报文都可能使用）
+
+
+
+
+Cache-Control
+控制缓存的行为：no-cache（强制向服务器再次验证）、no-store（不做任何缓存）、max-age=111111（资源可缓存最大时间 秒）、public（客户端、代理服务器都可利用缓存）、private（代理服务器不可用缓存）
+
+
+Connection
+浏览器想要优先使用的连接类型： keep-alive close（开启和关闭持久连接）
+
+
+Date
+创建报文时间
+
+
+Pragma
+只用于请求报文，客户端要求中间服务器不返回缓存的资源
+
+
+Via
+代理服务器相关信息，每经过一个代理服务器就会添加相关信息，用逗号分割
+
+
+Transfer-Encoding
+传输编码方式：chunked分块传输
+
+
+Upgrade
+要求客户端使用的升级协议，需配合Connection: Upgrade一起使用：websocket
+
+
+Warning
+缓存相关问题的警告
+
+
+
+
+
+
+请求首部
+作用（请求报文专用）
+
+
+
+
+Accept
+能正确接收的媒体类型：application/json text/plain
+
+
+Accept-Charset
+能正确接收的字符集: unicode-1-1
+
+
+Accept-Encoding
+能正确接收的编码格式列表：gzip deflate
+
+
+Accept-Language
+能正确接收的语言列表：zh-cn,zh;1=0.9,en,1=0.8
+
+
+Authorization
+客户端认证信息：Bearer dSdSdFFlsfdjasd123，一般存token用
+
+
+Cookie
+发送给服务器的Cookie信息
+
+
+Expect
+期待服务端的指定行为
+
+
+From
+请求方邮箱地址
+
+
+Host
+服务器的域名，用于区分单台服务器多个域名的虚拟主机，是HTTP/1.1唯一必须包含的字段。
+
+
+If-Match
+两端资源标记比较，只有判断条件为真服务端才会接受请求：If-Mach: "123456，和服务端文件标记比较
+
+
+If-Modified-Since
+本地资源未修改返回 304（比较时间）
+
+
+If-None-Match
+本地资源未修改返回 304（比较标记）
+
+
+User-Agent
+客户端信息
+
+
+Max-Forwards
+限制可被代理及网关转发的次数
+
+
+Proxy-Authorization
+向代理服务器发送验证信息
+
+
+Range
+请求某个内容的一部分，配合If-Range使用
+
+
+Referer
+请求发起页面的原始URI
+
+
+TE
+传输编码方式
+
+
+
+
+
+
+响应首部
+作用（响应报文专用）
+
+
+
+
+Accept-Ranges
+告知客户端服务器是否可接受范围请求，是bytes，否none
+
+
+Age
+资源在代理缓存中存在的时间
+
+
+ETag
+资源标识，资源发生变化时标识也会发生改变
+
+
+Location
+客户端重定向到某个 URL
+
+
+Proxy-Authenticate
+向代理服务器发送验证信息
+
+
+Server
+服务器名字：Apache Nginx
+
+
+WWW-Authenticate
+获取资源需要的认证方案
+
+
+Set-Cookie
+需要存在客户端的信息，一般用于识别用户身份
+
+
+
+
+
+
+实体首部
+作用（补充请求报文或响应报文相关信息）
+
+
+
+
+Allow
+资源的正确请求方式：GET HEAD POST
+
+
+Content-Encoding
+内容的编码格式：gzip deflate
+
+
+Content-Language
+内容使用的语言：zh-CN
+
+
+Content-Length
+request body 长度（即实体主体的大小）：
+
+
+Content-Location
+返回数据的备用地址
+
+
+Content-MD5
+Base64加密格式的内容 MD5检验值
+
+
+Content-Range
+响应主体的内容范围
+
+
+Content-Type
+内容的媒体类型（如'application/json;charset=UTF-8'则会发送预检请求）
+
+
+Expires
+内容的过期时间
+
+
+Last_modified
+内容的最后修改时间
+### 两种请求
+浏览器发送 CORS 请求（跨域请求）时, 会将请求分为简单请求与复杂请求.
+在我们日常工作中, 常用的简单请求可以将其归为以下几点:
+
+请求的方法只能为HEAD、GET、POST
+无自定义请求头
+Content-Type只能是这几种：
+text/plain
+multipart/form-data
+application/x-www-form-urlencoded
+
+复杂请求:
+
+PUT, Delete 方法的 ajax 请求
+发送 JSON 格式的 ajax 请求(比如post数据)
+带自定义头的 ajax 请求
+
+如果是简单请求, 则会先执行, 后判断。执行的过程大致如下:
+浏览器检测到请求是 CORS 请求, 添加一个origin字段(其中包含页面源信息: 协议、域名、端口) ====> 服务端收到后作相应的处理(对比origin, 服务端判断这个源是否接受)返回结果给浏览器  ====> 浏览器检查响应头是否允许跨域信息  ====> 允许, 那就当做没事发生。 不允许, 浏览器抛出相应的错误信息。
+复杂请求在发生请求时, 如果是 CORS 请求，浏览器预先发送一个 option 请求。浏览器这种行为被称之为预检请求（注意如果不是跨域请求就不会发生预检请求，比如反向代理）。
+
+## WEB服务器
+这里不关心服务器是Apache还是Nginx，而是在于服务器的作用。一台服务器可以作为源服务器，也可以作为中转服务器，甚至可以在一台服务器上搭建多个不同域名的网站。
+### 虚拟主机
+HTTP/1.1规范允许一台HTTP服务器搭建多个Web站点。利用虚拟主机的功能，可以在一台物理服务器（一个IP地址）上虚拟出多个主机，每个主机映射一个独立的域名。因此，当用户访问域名http://www.laogeng.com/时，DNS域名系统会将其解析成IP地址，根据IP找到物理服务器，然后再通过请求首部的HOST字段（现在知道HOST为什么是HTTP/1.1强制要求携带的了吧）确认对应的虚拟主机。
+### 代理服务器
+代理服务器就是客户端和服务端之间的“中间商”，即HTTP请求通过代理服务器转发给服务器，再将服务器的响应返回给客户端的行为。代理服务器可以用来作为缓存服务器，也可以用来隐藏用户身份（正向代理）或者服务器身份（反向代理）增加安全性。
+
+
+所谓正向代理，是从客户/客户端角度出发，为了从源服务器中取得内容，由客户端向代理服务器发出请求，并指定目标访问服务器，然后，代理服务器向源服务器转交需求，并将获得的内容返回给客户端。需要注意的是，在正向代理过程中隐藏了真是请求的客户端，即服务端不知道正式请求客户是谁。（科学上网）
+
+
+所谓反向代理，是从客户端发向反向代理出请求，反向代理服务器收到需求后判断请求走向何处，然后再将结果反馈给客户端。同样需要注意的是，在反向代理过程中，隐藏了内部服务器的信息，用户不需要知道是具体哪一台服务器提供的服务，只要知道反向代理服务器是谁就好了，我们甚至可以把反向代理服务器当做真正服务器看待。这种形式的代理通常被用作实现负载均衡，比如Nginx就是一种出色的反向代理服务器。
+
+
+反向代理解决跨域问题：我们前端在使用 vue-cli 这种脚手架工具进行开发时，经常会遇到跨域的问题，因为项目自身启动本地服务是需要占用一个端口（如 http://localhost:8080）的，所以必然会产生跨域的问题（因为本地服务端口和服务端接口地址不是同源）。在使用webpack做构建工具的项目中，经常会使用proxyTable代理实现跨域（具体实现自行百度）。之所以出现跨域是因为浏览器有同源策略的限制，但服务器是没有的同源策略的限制的。当我们本地服务（假设域名：http://localhost:8080）要请求目标服务器（假设域名：target.com）的资源的时候，我们不直接请求 target.com，而是请求本地服务自身 http://localhost:8080（这时是同源请求，不存在跨域），本地代理服务再将接口转发给 target.com（注意这时候是两个服务器直接的通信了，而不是客户端和服务器的通信，所以更不存在跨域），本地服务获取到目标服务器的响应数据之后通过再代理伪装成本地服务请求的返回值返回给客户端。
+
+本地服务在浏览器向本地服务发起请求 --> 本地代理转发 --> 目标服务器 --> 响应数据后通过代理伪装成本地服务器请求的返回值 --> 浏览器接受到目标服务器的数据
+
+
+
+vue-cli反向代理配置如下：
+```
+//vue.config.js
+  ......
+  devServer: {
+    port: 8080, // 配置端口
+    open: true, // 项目启动自动开启浏览器
+    compress: true, // 开启压缩
+    overlay: { // 设置让浏览器 overlay 同时显示警告和错误
+      warnings: true,
+      errors: true
+    },
+    // 设置请求反向代理
+    proxy: {
+      '/api': { // 要代理的接口的匹配字符
+        target: process.env.BASE_URL, // 接口域名
+        secure: false,
+        changeOrigin: true
+      }
+    }
+  },
+  ......
+```
+复制代码需要注意如果要用反向代理，则在 axios 配置的时候，请求baseURL必须设置为字符串'/'，否则 proxy 会匹配不到'/api'导致代理失败。
+缓存服务器
+缓存服务器指的是将需要频繁访问的网络内容存放在离用户较近、访问速度更快的服务器中，以提高内容访问速度的一种技术。缓存服务器是浏览器和源服务器之间的中间服务器，浏览器先向这个中间服务器发起HTTP请求，经过处理后（比如权限验证，缓存匹配等），再将请求转发到源服务器。
