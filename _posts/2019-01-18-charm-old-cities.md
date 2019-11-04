@@ -9,4 +9,4 @@ tags:
   - 长图
 published: true
 ---
-sticky类型
+长图
