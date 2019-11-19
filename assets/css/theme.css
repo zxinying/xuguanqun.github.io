@@ -652,9 +652,9 @@ footer {
     margin-top:10px;
 }
 article {
-	font-size:17px;
+	font-size:15px;
 	line-height:1.86;
-    font-family:Lora;
+/*     font-family:Lora; */
 }
 .article-headline {
     font-family: Georgia,Times,"Times New Roman",serif;
