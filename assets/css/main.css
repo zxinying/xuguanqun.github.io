@@ -203,8 +203,9 @@ caption {
   caption-side: bottom; }
 
 th {
-  text-align: inherit; }
-
+  text-align: inherit;
+}
+th,td{border: 1px solid #e8e8e8;}
 label {
   display: inline-block;
   margin-bottom: 0.5rem; }
