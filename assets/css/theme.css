@@ -671,6 +671,8 @@ article blockquote {
 	margin-left:0px;
 	font-style:italic;
 	position:relative;
+	background: #f8f8f8;
+    	border-right: 3px solid black;
 }
 article blockquote:before {
 	content:"“";
