@@ -671,10 +671,11 @@ article blockquote {
 	margin-left:0px;
 	font-style:italic;
 	position:relative;
-	background: #f8f8f8;
-    	border-right: 3px solid black;
+	color:#666;
+	background: #ebf3fb;
+    	border-right: 5px solid #3583d6;
 }
-article blockquote:before {
+/* article blockquote:before {
 	content:"“";
 	font-family:Georgia;
 	font-size:8rem;
@@ -683,7 +684,7 @@ article blockquote:before {
 	opacity:1;
 	float:left;
 	line-height:1;
-}
+} */
 /* article:first-letter {
 	float:left;
 	font-size:5em;
