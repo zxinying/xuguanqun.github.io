@@ -673,7 +673,7 @@ article blockquote {
 	position:relative;
 	color:#666;
 	background: #ebf3fb;
-    	border-right: 5px solid #3583d6;
+    	border-left: 5px solid #3583d6;
 }
 /* article blockquote:before {
 	content:"“";
