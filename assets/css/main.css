@@ -457,7 +457,13 @@ pre {
     font-size: inherit;
     color: inherit;
     word-break: normal; }
-
+/*代码块 语言标识*/
+pre code:before{
+  content: attr(lang);
+  position: absolute;
+  right: 25px;
+  color: hsla(0,0%,54.9%,.8);
+}
 .pre-scrollable {
   max-height: 340px;
   overflow-y: scroll; }
