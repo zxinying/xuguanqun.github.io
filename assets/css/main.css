@@ -448,13 +448,13 @@ kbd {
     font-weight: 700; }
 
 pre {    
-    background: #eee;
-    padding: 5px;
+    background: #f8f8f8;
+    padding: 15px;
     font-size:14px;
   display: block;
-  color: #212529; }
+  color: #333; }
   pre code {
-    font-size: inherit;
+/*     font-size: inherit; */
     color: inherit;
     word-break: normal; }
 /*代码块 语言标识*/
